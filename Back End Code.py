@@ -172,9 +172,9 @@ def searchProject():
 def show_poject():
     if request.method == 'POST':
         topic = request.form["topic"].lower()
-        
+            
         try:
-            conn = pymysql.connect(host="localhost", user="root", password=" ", db="se_project")
+            conn = pymysql.connect(host="localhost", user="root", password="Auntyno#4", db="se_project")
             cur = conn.cursor()
                 
             cur.execute("select * from projects where topic = %s",(topic))
@@ -182,6 +182,9 @@ def show_poject():
             record = cur.fetchone()
             
             if record:
+                record = list(record)
+                for i in range(len(record)):
+                    record[i] = Markup(record[i])
                 return render_template("ProjectPage.html",names=record[0], topic=record[1], domain=record[2], year=record[3], description=record[4], keywords=record[5], future_scope=record[6], awards=record[7], contacts=record[8])
             else:
                 similar_projects = []
